@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SVG + HTML Input Overlay</title>
+<style>
+  .stage { position: relative; width: 100%; max-width: 1000px; margin: 24px auto;
+           aspect-ratio: 16/9; background:#111; border-radius:12px; overflow:hidden; }
+  @supports not (aspect-ratio: 16/9) {
+    .stage::before { content:""; display:block; padding-top:56.25%; }
+    .stage > * { position:absolute; inset:0; }
+  }
+  .stage svg { width:100%; height:100%; display:block; }
+  .input-wrap { position:absolute; left:5.98%; top:8.44%; width:67.52%; height:86.41%;
+                display:flex; align-items:flex-start; gap:8px; pointer-events:none; }
+  .input-wrap input, .input-wrap button { pointer-events:all; }
+  .input-wrap input { flex:1; height:44px; padding:8px 12px; font-size:16px; border-radius:8px;
+                      border:1px solid #ccc; background:rgba(255,255,255,.95); backdrop-filter:blur(2px); }
+  .input-wrap button { height:44px; padding:0 14px; border-radius:8px; border:none; font-weight:600;
+                       background:#0ea5e9; color:#fff; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3072 1728" preserveAspectRatio="xMidYMid slice">
+    <image href="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_16x9.jpg"
+           width="3072" height="1728" />
+    <rect x="183.795" y="145.869" width="2074.256" height="1493.698"
+          fill="rgba(255,255,255,0)" stroke="white" stroke-width="4" style="opacity:.25" />
+  </svg>
+
+  <form class="input-wrap" id="form">
+    <input id="url" type="url" placeholder="https:// örn. bir adres yaz..." required />
+    <button type="submit">Git</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const val = document.getElementById('url').value.trim();
+    if (!/^https?:\/\//i.test(val)) return alert('Lütfen http:// veya https:// ile başlayın.');
+    window.open(val, '_blank', 'noopener');
+  });
+</script>
+</body>
+</html>
